@@ -71,8 +71,9 @@ EOF
 function encrypt {
     FILE=$1
 
-    echo "Hello, $FILE"
-    echo "Key = $KEY_HEX"
+    IV_HEX=aaaaaaaaaaaaaaaa
+
+    openssl enc -aes-256-ctr -e -in $FILE -K $KEY_HEX -iv $IV_HEX -nosalt | dd of=$FILE conv=notrunc
 }
 export -f encrypt
 
