@@ -69,9 +69,11 @@ function get_iv_hex {
     FILE_PATH_HASH_HEX=$(echo -n "$FILE_PATH" | md5sum | cut -d ' ' -f 1)
 
     # ECB is safe here because we're implementing an ESSIV (of sorts),
-    # and we need access to a raw, single-block encryption
+    # and we need access to a raw, single-block encryption.
+    # instead of hashing the sector number, we hash the full file path.
     openssl enc -aes-256-ecb -in <(echo "$FILE_PATH_HASH_HEX" | xxd -r -p) -e -K "$KEY_HASH_HEX" -nopad | xxd -p | tr -d '\n'
 }
+# export function for use by child processes
 export -f get_iv_hex
 
 
@@ -88,6 +90,7 @@ function crypt {
     # CTR mode ensures that encrypted file remains same size as original
     openssl enc -aes-256-ctr -in "$FILE_PATH" "$OPERATION_SWITCH" -K "$KEY_HEX" -iv "$(get_iv_hex "$FILE_PATH")" | dd of="$FILE_PATH" conv=notrunc status=none
 }
+# export function for use by child processes
 export -f crypt
 
 
@@ -142,7 +145,7 @@ done
 shift $((OPTIND-1))
 ([[ "$1" = "--" ]] 2>/dev/null && shift) || true
 
-# export variables for use by child processes
+# export variable for use by child processes
 export OPERATION_SWITCH
 
 
@@ -169,7 +172,7 @@ KEY_HEX=$2
 echo -n "$KEY_HEX" | grep -Eq '[a-fA-F0-9]{64}' || (echo "[-] Provided key is invalid or incorrectly formatted" >&2; false)
 echo -n "$KEY_HEX" | grep -Eq '[a]{64}' && (echo "[-] Provided key is only valid as example.  Please use gen_key.sh." >&2; false)
 
-# export variables for use by child processes
+# export variable for use by child processes
 export KEY_HEX
 
 
@@ -200,7 +203,9 @@ fi
 # start operation
 ###############################################################################
 
+# calculate SHA-256 of key, for ESSIV-like purposes.  see get_iv_hex() above.
 KEY_HASH_HEX=$(echo "$KEY_HEX" | xxd -r -p | sha256sum | cut -d ' ' -f 1)
+# export variable for use by child processes
 export KEY_HASH_HEX
 
 echo "[*] ${OPERATION}ing following files..."
