@@ -7,6 +7,7 @@ Maintain an encrypted lockbox of data, accessible only by you.  Performs fast fi
 
 ## Features
 * Performs fast file-by-file encryption on every file in a directory recursively
+* Bash-based with minimal external dependencies (mainly OpenSSL's `enc` utility and `xxd`)
 * Uses [NSA Suite B Cryptography](https://en.wikipedia.org/wiki/NSA_Suite_B_Cryptography) algorithms with generally good cryptographic hygiene
 * Skips all files that are not [regular files](https://en.wikipedia.org/wiki/Unix_file_types#Regular_file) (such as symbolic links)
 * Skips all files that are not writable by current user (a la `find -writable`), to avoid accidentally encrypting OS files
@@ -15,6 +16,7 @@ Maintain an encrypted lockbox of data, accessible only by you.  Performs fast fi
     * IV dynamically calculated for each file.  Like an [ESSIV](https://en.wikipedia.org/wiki/Disk_encryption_theory#Encrypted_salt-sector_initialization_vector_(ESSIV)), but uses hash of full file path instead of sector number.
 * In-place encryption/decryption.  Instead of using a temp file on storage device for every encryption operation, an attempt is made to reuse existing [inode](https://en.wikipedia.org/wiki/Inode).  Helpful when trying to maintain lockbox on storage device with little free space.
 * Local script can be run against remote lockbox, without local script ever existing on remote lockbox device
+    * Still requires that remote lockbox device has OpenSSL's `enc` utility and `xxd` dependencies installed
 
 
 ## Environment
