@@ -1,0 +1,22 @@
+language: bash
+
+sudo: required
+
+install:
+ - sudo apt-get -qq update
+ - sudo apt-get install -y udftools coreutils vim-common scrub
+ - curl https://ftp-master.debian.org/keys/archive-key-7.0.asc | sudo apt-key add -
+ - echo "deb http://ftp.us.debian.org/debian unstable main contrib non-free" | sudo tee -a /etc/apt/sources.list
+ - sudo apt-get -qq update
+ - sudo apt-get install -y shellcheck
+ - pip install --user bashate
+
+script:
+ - bash -c 'shopt -s globstar; shellcheck -e 2012 **/*.sh'
+ - bash -c 'shopt -s globstar; bashate -i E006,E011 **/*.sh'
+ - ./lockbox.sh -v
+ - ./lockbox.sh -h
+ - ./unit-test.sh
+
+matrix:
+  fast_finish: true
