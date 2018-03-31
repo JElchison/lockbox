@@ -29,7 +29,7 @@ Maintain an encrypted lockbox of data, accessible only by you.  Performs fast fi
 ## Prerequisites
 To install necessary prerequisites on Ubuntu:
 
-    sudo apt-get install coreutils vim-common
+    sudo apt-get install openssl vim-common coreutils
 
 
 ## Usage
