@@ -68,6 +68,8 @@ function get_iv_hex {
     # each input file path.
     FILE_PATH_HASH_HEX=$(echo -n "$FILE_PATH" | md5sum | cut -d ' ' -f 1)
 
+    # ECB is safe here because we're implementing an ESSIV (of sorts),
+    # and we need access to a raw, single-block encryption
     openssl enc -aes-256-ecb -in <(echo "$FILE_PATH_HASH_HEX" | xxd -r -p) -e -K "$KEY_HASH_HEX" -nopad | xxd -p | tr -d '\n'
 }
 export -f get_iv_hex
@@ -83,6 +85,7 @@ function crypt {
 
     FILE_PATH=$1
 
+    # CTR mode ensures that encrypted file remains same size as original
     openssl enc -aes-256-ctr -in "$FILE_PATH" "$OPERATION_SWITCH" -K "$KEY_HEX" -iv "$(get_iv_hex "$FILE_PATH")" | dd of="$FILE_PATH" conv=notrunc status=none
 }
 export -f crypt
