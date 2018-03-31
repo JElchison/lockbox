@@ -28,7 +28,7 @@ Performs fast file-by-file encryption on every file in a directory recursively.
 
 This script should be capable of running in macOS or in Linux.
 
-Usage:  $0 [-e] [-d] path key
+Usage:  $0 [-e|-d] path key
         $0 -v
         $0 -h
     -e
