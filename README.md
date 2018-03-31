@@ -15,6 +15,7 @@ Maintain an encrypted lockbox of data, accessible only by you.  Performs fast fi
     * Same symmetrical key used for all files.  Avoids having to store individual keys on lockbox device.
     * IV dynamically calculated for each file.  Like an [ESSIV](https://en.wikipedia.org/wiki/Disk_encryption_theory#Encrypted_salt-sector_initialization_vector_(ESSIV)), but uses hash of full file path instead of sector number.
 * In-place encryption/decryption.  Instead of using a temp file on storage device for every encryption operation, an attempt is made to reuse existing [inode](https://en.wikipedia.org/wiki/Inode).  Helpful when trying to maintain lockbox on storage device with little free space.
+* Encrypted files leave little hint (if any) about what encrypted it
 * Local script can be run against remote lockbox, without local script ever existing on remote lockbox device
     * Still requires that remote lockbox device has OpenSSL's `enc` utility and `xxd` dependencies installed
 
