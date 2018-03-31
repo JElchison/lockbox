@@ -35,6 +35,19 @@ To install necessary prerequisites on Ubuntu:
 LibreSSL is also acceptable.
 
 
+## Getting Started
+
+To encrypt:
+
+1. Use `gen_key.sh` to generate a new key.  Always generate a new key for each encryption.
+2. Invoke `lockbox.sh` to recursively encrypt the directory you deem as your lockbox.
+3. Save your generated key in a safe/secure place.
+
+To decrypt:
+
+1. Invoke `lockbox.sh` (with the key you previously saved) to decrypt your lockbox.
+
+
 ## Usage
 ```
 Maintain an encrypted lockbox of data, accessible only by you.
@@ -64,6 +77,7 @@ Usage:  ./lockbox.sh [-e|-d] path key
 Example 1:  ./lockbox.sh /tmp/lockbox aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 Example 2:  ./lockbox.sh /tmp/lockbox $(xxd -p test.key | tr -d '\n')
 ```
+
 
 ### Example usage
 Running on a locally stored lockbox directory:
@@ -189,3 +203,10 @@ $ ssh user@remote-addr "bash -s" -- < ./lockbox.sh -d /tmp/remote-lockbox $(xxd 
 /tmp/remote-lockbox/9
 [+] Success
 ```
+
+
+## Disclaimer
+
+Please use this tool responsibly.  If you interrupt its operation, mess up parameters, lose your key files, etc., your data may be lost--either temporarily or permanently.  Please test, rehearse, and automate your common operations, to reduce the likelihood of failure.  Consider using secure backups to make sure you don't lose anything truly critical.
+
+No privacy tool is perfect.  This tool has been helpful for me.  If used properly, I hope it's helpful for you.  Unfortunately, I cannot provide any guarantees as to the completeness or soundness of this product with your machines, in your environment.  Please review my code before you trust this.  (PRs are welcome.)  Use at your own risk.
