@@ -31,6 +31,8 @@ To install necessary prerequisites on Ubuntu:
 
     sudo apt-get install openssl vim-common coreutils
 
+LibreSSL is also acceptable.
+
 
 ## Usage
 ```
