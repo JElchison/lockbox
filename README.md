@@ -22,7 +22,7 @@ Maintain an encrypted lockbox of data, accessible only by you.  Performs fast fi
 ## Environment
 * Any OS having a Bash environment
 * The following tools must be installed, executable, and in the PATH:
-    * `openssl`
+    * OpenSSL's `enc` utility
     * `xxd`
 
 
