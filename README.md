@@ -1,6 +1,6 @@
 # lockbox
 
-Maintain a private lockbox of data, accessible only by you
+Maintain an encrypted lockbox of data, accessible only by you
 
 [![Build Status](https://travis-ci.org/JElchison/lockbox.svg?branch=master)](https://travis-ci.org/JElchison/lockbox)
 
