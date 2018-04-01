@@ -19,6 +19,8 @@ Maintain an encrypted lockbox of data, accessible only by you.  Performs fast fi
 * Local script can be run against remote lockbox, without local script ever existing on remote lockbox device
     * Still requires that remote lockbox device has OpenSSL's `enc` utility and `xxd` dependencies installed
 
+Note:  This tool does not encrypt, rename, or otherwise attempt to mask the original (plaintext) filenames.  Thus, even when file contents are encrypted in the lockbox, it's still possible to see the original filenames.
+
 
 ## Environment
 * Any OS having a Bash environment
