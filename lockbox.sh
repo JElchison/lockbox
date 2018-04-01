@@ -9,7 +9,7 @@ set -euf -o pipefail
 ###############################################################################
 
 # version of this script
-VERSION=1.0.0
+VERSION=1.0.1
 
 
 ###############################################################################
@@ -87,8 +87,9 @@ function crypt {
 
     FILE_PATH=$1
 
-    # CTR mode ensures that encrypted file remains same size as original
-    openssl enc -aes-256-ctr -in "$FILE_PATH" "$OPERATION_SWITCH" -K "$KEY_HEX" -iv "$(get_iv_hex "$FILE_PATH")" | dd of="$FILE_PATH" conv=notrunc status=none
+    # CTR mode ensures that encrypted file remains same size as original.
+    # 8192 is chosen to match OpenSSL enc "bsize" buffer size.
+    openssl enc -aes-256-ctr -in "$FILE_PATH" "$OPERATION_SWITCH" -K "$KEY_HEX" -iv "$(get_iv_hex "$FILE_PATH")" | dd of="$FILE_PATH" bs=8192 conv=notrunc status=none
 }
 # export function for use by child processes
 export -f crypt
