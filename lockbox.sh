@@ -69,8 +69,8 @@ function get_iv_hex {
     FILE_PATH_HASH_HEX=$(echo -n "$FILE_PATH" | md5sum | cut -d ' ' -f 1)
 
     # ECB is safe here because we're implementing an ESSIV (of sorts),
-    # and we need access to a raw, single-block encryption.
-    # instead of hashing the sector number, we hash the full file path.
+    # and we need access to a raw, single-block encryption.  instead of
+    # encrypting the sector number, we encrypt a hash of the full file path.
     openssl enc -aes-256-ecb -in <(echo "$FILE_PATH_HASH_HEX" | xxd -r -p) -e -K "$KEY_HASH_HEX" -nopad | xxd -p | tr -d '\n'
 }
 # export function for use by child processes
