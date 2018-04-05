@@ -10,6 +10,7 @@ TOTAL_NUMBER_FILES=100
 TEST_FILE_NUMBER=10
 ROOT_FILE_NUMBER=42
 LARGE_FILE_NAME=large.bin
+MANIFEST_FILE_NAME=manifest.txt
 
 # setup contents of lockbox
 rm -rf "$LOCKBOX_PATH" || true
@@ -39,7 +40,7 @@ ORIG_LARGE_SIZE=$(stat -c %s "$LOCKBOX_PATH/$LARGE_FILE_NAME")
 # generate key to be used for encryption
 ./gen_key.sh "$KEY_FILE_PATH"
 # encrypt lockbox.  intentionally omitting '-e' here to test default mode.
-./lockbox.sh "$LOCKBOX_PATH" "$(xxd -p "$KEY_FILE_PATH" | tr -d '\n')"
+./lockbox.sh "$LOCKBOX_PATH" "$(xxd -p "$KEY_FILE_PATH" | tr -d '\n')" | tee "$MANIFEST_FILE_NAME"
 
 # print summary info about lockbox
 ls -li "$LOCKBOX_PATH"
@@ -64,7 +65,7 @@ if diff -q "$LOCKBOX_PATH/$TEST_FILE_NUMBER" <(echo "Test $TEST_FILE_NUMBER"); t
 if diff -q "$LOCKBOX_PATH/$LARGE_FILE_NAME" "$LARGE_FILE_NAME"; then false; fi
 
 # decrypt lockbox
-./lockbox.sh -d "$LOCKBOX_PATH" "$(xxd -p "$KEY_FILE_PATH" | tr -d '\n')"
+./lockbox.sh -d -c "$MANIFEST_FILE_NAME" "$LOCKBOX_PATH" "$(xxd -p "$KEY_FILE_PATH" | tr -d '\n')"
 
 # print summary info about lockbox
 ls -li "$LOCKBOX_PATH"
