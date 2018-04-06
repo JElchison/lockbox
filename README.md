@@ -206,15 +206,15 @@ $ ssh user@remote-addr "bash -s" -- < ./lockbox.sh -d -c /tmp/remote-lockbox/man
 [+] Validating arguments...
 [+] Testing dependencies...
 [+] Decrypting following files...
-/tmp/remote-lockbox/3
-/tmp/remote-lockbox/2
-/tmp/remote-lockbox/8
-/tmp/remote-lockbox/5
-/tmp/remote-lockbox/6
-/tmp/remote-lockbox/1
-/tmp/remote-lockbox/10
-/tmp/remote-lockbox/7
-/tmp/remote-lockbox/9
+/tmp/remote-lockbox/8: OK
+/tmp/remote-lockbox/1: OK
+/tmp/remote-lockbox/7: OK
+/tmp/remote-lockbox/5: OK
+/tmp/remote-lockbox/3: OK
+/tmp/remote-lockbox/10: OK
+/tmp/remote-lockbox/6: OK
+/tmp/remote-lockbox/9: OK
+/tmp/remote-lockbox/2: OK
 [+] Success
 ```
 
