@@ -106,13 +106,17 @@ function crypt {
         HASH_OUTPUT=$(sha512sum "$FILE_PATH")
     fi
 
-    # CTR mode ensures that encrypted file remains same size as original.
+    # CTR mode ensures that *crypted file remains same size as original.
     # 8192 is chosen to match OpenSSL enc "bsize" buffer size.
     openssl enc -aes-256-ctr -in "$FILE_PATH" "$OPERATION_SWITCH" -K "$KEY_HEX" -iv "$(get_iv_hex "$FILE_PATH")" | dd of="$FILE_PATH" bs=8192 conv=notrunc status=none
 
+    # assuming *cryption succeeded...
     if [[ "$OPERATION_SWITCH" == '-e' ]]; then
-        # assuming encryption succeeded, echo the hash output to stdout
+        # echo the hash output to stdout, enabling creation of manifest file
         echo "$HASH_OUTPUT"
+    else
+        # echo the file path to stdout, so the user can view decryption progress
+        echo "$FILE_PATH"
     fi
 }
 # export function for use by child processes
@@ -263,7 +267,8 @@ if [[ "$OPERATION_SWITCH" == '-d' ]] && [[ -r "$MANIFEST_PATH" ]]; then
         crypt "$FILE"
     done < "$MANIFEST_PATH"
 
-    sha512sum -c "$MANIFEST_PATH"
+    echo "[+] Verifying decryption..." >&2
+    sha512sum -c "$MANIFEST_PATH" --quiet
 else
     find "$ROOT_DIR" -type f -writable -exec bash -c 'crypt "$0"' {} \;
 fi
