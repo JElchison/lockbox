@@ -102,16 +102,16 @@ Running on a locally stored lockbox directory:
 ```
 $ ls -li /tmp/lockbox
 total 40
-9830552 -rw-rw-r-- 1 user     user     7 Mar 31 16:20 1
-9830568 -rw-rw-r-- 1 user     user     8 Mar 31 16:20 10
-9830553 -rw-rw-r-- 1 user     user     7 Mar 31 16:20 2
-9830560 -rw-rw-r-- 1 user     user     7 Mar 31 16:20 3
-9830561 -rw-rw-r-- 1 root     root     7 Mar 31 16:20 4
-9830562 -rw-rw-r-- 1 user     user     7 Mar 31 16:20 5
-9830563 -rw-rw-r-- 1 user     user     7 Mar 31 16:20 6
-9830564 -rw-rw-r-- 1 user     user     7 Mar 31 16:20 7
-9830565 -rw-rw-r-- 1 user     user     7 Mar 31 16:20 8
-9830566 -rw-rw-r-- 1 user     user     7 Mar 31 16:20 9
+9830451 -rw-rw-r-- 1 user     user     7 Apr  7 07:05 1
+9830562 -rw-rw-r-- 1 user     user     8 Apr  7 07:05 10
+9830453 -rw-rw-r-- 1 user     user     7 Apr  7 07:05 2
+9830456 -rw-rw-r-- 1 user     user     7 Apr  7 07:05 3
+9830523 -rw-rw-r-- 1 root     root     7 Apr  7 07:05 4
+9830535 -rw-rw-r-- 1 user     user     7 Apr  7 07:05 5
+9830552 -rw-rw-r-- 1 user     user     7 Apr  7 07:05 6
+9830553 -rw-rw-r-- 1 user     user     7 Apr  7 07:05 7
+9830560 -rw-rw-r-- 1 user     user     7 Apr  7 07:05 8
+9830561 -rw-rw-r-- 1 user     user     7 Apr  7 07:05 9
 
 $ xxd -g4 /tmp/lockbox/1
 00000000: 54657374 20310a                      Test 1.
@@ -125,60 +125,61 @@ $ ./lockbox.sh -e /tmp/lockbox $(xxd -p test.key | tr -d '\n') | tee manifest.tx
 [+] Validating arguments...
 [+] Testing dependencies...
 [+] Encrypting following files...
-edc9ee8d9db920514a43ecdfda0ee1f927f5383a8865aef1660b94e1f2ee0ac906a7934a25fc694da07838ec4e3a9b645a1af36bd0a5283c5bebf87de3e566c9  /tmp/lockbox/8
-db7cf7d86a5fb5370585db489ec2affda2eb0eba79b7c20595759dd0d3489513b918fa2ec0bda35cbe6ddfb2fb8d3e3b2f77b8a39f2e0dd77fd5db0e10f931b5  /tmp/lockbox/1
-dcaf7c17a80cd9c11ef995e1a1b5aa2d075d645495732e6dc13a868e2951b0f5cc097baf5c29d729ac421dc4a9b2c8a2243e3f2f5f60f590da5d8bc7dc4ae308  /tmp/lockbox/7
-b369685ea1aba96a128fac154bb45caa265682042b5d3299bb39a542af54e3817e61a597c25c90cde8e66d311699d44d6ebbeb1601633e5bdba68efb7281a920  /tmp/lockbox/5
 2cecfe6cd97a96ffa76c9e77b9e12eb057935bb71a0d62b08c2faf546949ddb71dc7af2483484ede72a544d511b7fc7c1d0c97649406fe1c63c1fb05155026dc  /tmp/lockbox/3
-1b76275c062fc0382a2eaf0e0f45078051c92551cff0a171bf5f93384ae9faa9b76388c4cbba52710b24f8c77853b04e3757835bade3ac2bc30ea8578b8120e7  /tmp/lockbox/10
-990f2b36730ac2941acb6642a818501205a94aa4c1dd511436ed696f914a92b12e962f7e78bdbdd8d5b8f39fe3f9fe580d8bb1885e06006279811a41a224e655  /tmp/lockbox/6
-424d2adefb09cff4266a6fbefda7fc0dff1ae4e06d5e5d4bcb6351af55fcfd815a33706ce2a4a07ec829ae13fb60603c8c16e9fce4ae0a20fbaf07747bb8a6bb  /tmp/lockbox/9
 0670f66bebf4c6c6cbaf09f04cb7fe110dae6b638a156617e3c8440661572020e105d236d08afab6b0566b538fcb458efbb833a50f49711d187ef7c5ec03a367  /tmp/lockbox/2
+edc9ee8d9db920514a43ecdfda0ee1f927f5383a8865aef1660b94e1f2ee0ac906a7934a25fc694da07838ec4e3a9b645a1af36bd0a5283c5bebf87de3e566c9  /tmp/lockbox/8
+b369685ea1aba96a128fac154bb45caa265682042b5d3299bb39a542af54e3817e61a597c25c90cde8e66d311699d44d6ebbeb1601633e5bdba68efb7281a920  /tmp/lockbox/5
+990f2b36730ac2941acb6642a818501205a94aa4c1dd511436ed696f914a92b12e962f7e78bdbdd8d5b8f39fe3f9fe580d8bb1885e06006279811a41a224e655  /tmp/lockbox/6
+db7cf7d86a5fb5370585db489ec2affda2eb0eba79b7c20595759dd0d3489513b918fa2ec0bda35cbe6ddfb2fb8d3e3b2f77b8a39f2e0dd77fd5db0e10f931b5  /tmp/lockbox/1
+1b76275c062fc0382a2eaf0e0f45078051c92551cff0a171bf5f93384ae9faa9b76388c4cbba52710b24f8c77853b04e3757835bade3ac2bc30ea8578b8120e7  /tmp/lockbox/10
+dcaf7c17a80cd9c11ef995e1a1b5aa2d075d645495732e6dc13a868e2951b0f5cc097baf5c29d729ac421dc4a9b2c8a2243e3f2f5f60f590da5d8bc7dc4ae308  /tmp/lockbox/7
+424d2adefb09cff4266a6fbefda7fc0dff1ae4e06d5e5d4bcb6351af55fcfd815a33706ce2a4a07ec829ae13fb60603c8c16e9fce4ae0a20fbaf07747bb8a6bb  /tmp/lockbox/9
 [+] Success
 
 $ ls -li /tmp/lockbox
 total 40
-9830552 -rw-rw-r-- 1 user     user     7 Mar 31 16:20 1
-9830568 -rw-rw-r-- 1 user     user     8 Mar 31 16:20 10
-9830553 -rw-rw-r-- 1 user     user     7 Mar 31 16:20 2
-9830560 -rw-rw-r-- 1 user     user     7 Mar 31 16:20 3
-9830561 -rw-rw-r-- 1 root     root     7 Mar 31 16:20 4
-9830562 -rw-rw-r-- 1 user     user     7 Mar 31 16:20 5
-9830563 -rw-rw-r-- 1 user     user     7 Mar 31 16:20 6
-9830564 -rw-rw-r-- 1 user     user     7 Mar 31 16:20 7
-9830565 -rw-rw-r-- 1 user     user     7 Mar 31 16:20 8
-9830566 -rw-rw-r-- 1 user     user     7 Mar 31 16:20 9
+9830451 -rw-rw-r-- 1 user     user     7 Apr  7 07:05 1
+9830562 -rw-rw-r-- 1 user     user     8 Apr  7 07:05 10
+9830453 -rw-rw-r-- 1 user     user     7 Apr  7 07:05 2
+9830456 -rw-rw-r-- 1 user     user     7 Apr  7 07:05 3
+9830523 -rw-rw-r-- 1 root     root     7 Apr  7 07:05 4
+9830535 -rw-rw-r-- 1 user     user     7 Apr  7 07:05 5
+9830552 -rw-rw-r-- 1 user     user     7 Apr  7 07:05 6
+9830553 -rw-rw-r-- 1 user     user     7 Apr  7 07:05 7
+9830560 -rw-rw-r-- 1 user     user     7 Apr  7 07:05 8
+9830561 -rw-rw-r-- 1 user     user     7 Apr  7 07:05 9
 
 $ xxd -g4 /tmp/lockbox/1
-00000000: 7b01114b f074cd                      {..K.t.
+00000000: 50c14f5c 894bcb                      P.O\.K.
 
 $ ./lockbox.sh -d manifest.txt $(xxd -p test.key | tr -d '\n')
 [+] Validating arguments...
 [+] Testing dependencies...
 [+] Decrypting following files...
-/tmp/lockbox/8: OK
-/tmp/lockbox/1: OK
-/tmp/lockbox/7: OK
-/tmp/lockbox/5: OK
-/tmp/lockbox/3: OK
-/tmp/lockbox/10: OK
-/tmp/lockbox/6: OK
-/tmp/lockbox/9: OK
-/tmp/lockbox/2: OK
+/tmp/lockbox/3
+/tmp/lockbox/2
+/tmp/lockbox/8
+/tmp/lockbox/5
+/tmp/lockbox/6
+/tmp/lockbox/1
+/tmp/lockbox/10
+/tmp/lockbox/7
+/tmp/lockbox/9
+[+] Verifying decryption...
 [+] Success
 
 $ ls -li /tmp/lockbox
 total 40
-9830552 -rw-rw-r-- 1 user     user     7 Mar 31 16:20 1
-9830568 -rw-rw-r-- 1 user     user     8 Mar 31 16:20 10
-9830553 -rw-rw-r-- 1 user     user     7 Mar 31 16:20 2
-9830560 -rw-rw-r-- 1 user     user     7 Mar 31 16:20 3
-9830561 -rw-rw-r-- 1 root     root     7 Mar 31 16:20 4
-9830562 -rw-rw-r-- 1 user     user     7 Mar 31 16:20 5
-9830563 -rw-rw-r-- 1 user     user     7 Mar 31 16:20 6
-9830564 -rw-rw-r-- 1 user     user     7 Mar 31 16:20 7
-9830565 -rw-rw-r-- 1 user     user     7 Mar 31 16:20 8
-9830566 -rw-rw-r-- 1 user     user     7 Mar 31 16:20 9
+9830451 -rw-rw-r-- 1 user     user     7 Apr  7 07:06 1
+9830562 -rw-rw-r-- 1 user     user     8 Apr  7 07:06 10
+9830453 -rw-rw-r-- 1 user     user     7 Apr  7 07:06 2
+9830456 -rw-rw-r-- 1 user     user     7 Apr  7 07:06 3
+9830523 -rw-rw-r-- 1 root     root     7 Apr  7 07:05 4
+9830535 -rw-rw-r-- 1 user     user     7 Apr  7 07:06 5
+9830552 -rw-rw-r-- 1 user     user     7 Apr  7 07:06 6
+9830553 -rw-rw-r-- 1 user     user     7 Apr  7 07:06 7
+9830560 -rw-rw-r-- 1 user     user     7 Apr  7 07:06 8
+9830561 -rw-rw-r-- 1 user     user     7 Apr  7 07:06 9
 
 $ xxd -g4 /tmp/lockbox/1
 00000000: 54657374 20310a                      Test 1.
@@ -195,31 +196,34 @@ $ ssh user@remote-addr "bash -s" -- < ./lockbox.sh -e /tmp/remote-lockbox $(xxd 
 [+] Validating arguments...
 [+] Testing dependencies...
 [+] Encrypting following files...
-edc9ee8d9db920514a43ecdfda0ee1f927f5383a8865aef1660b94e1f2ee0ac906a7934a25fc694da07838ec4e3a9b645a1af36bd0a5283c5bebf87de3e566c9  /tmp/remote-lockbox/8
-db7cf7d86a5fb5370585db489ec2affda2eb0eba79b7c20595759dd0d3489513b918fa2ec0bda35cbe6ddfb2fb8d3e3b2f77b8a39f2e0dd77fd5db0e10f931b5  /tmp/remote-lockbox/1
-dcaf7c17a80cd9c11ef995e1a1b5aa2d075d645495732e6dc13a868e2951b0f5cc097baf5c29d729ac421dc4a9b2c8a2243e3f2f5f60f590da5d8bc7dc4ae308  /tmp/remote-lockbox/7
-b369685ea1aba96a128fac154bb45caa265682042b5d3299bb39a542af54e3817e61a597c25c90cde8e66d311699d44d6ebbeb1601633e5bdba68efb7281a920  /tmp/remote-lockbox/5
 2cecfe6cd97a96ffa76c9e77b9e12eb057935bb71a0d62b08c2faf546949ddb71dc7af2483484ede72a544d511b7fc7c1d0c97649406fe1c63c1fb05155026dc  /tmp/remote-lockbox/3
-1b76275c062fc0382a2eaf0e0f45078051c92551cff0a171bf5f93384ae9faa9b76388c4cbba52710b24f8c77853b04e3757835bade3ac2bc30ea8578b8120e7  /tmp/remote-lockbox/10
-990f2b36730ac2941acb6642a818501205a94aa4c1dd511436ed696f914a92b12e962f7e78bdbdd8d5b8f39fe3f9fe580d8bb1885e06006279811a41a224e655  /tmp/remote-lockbox/6
-424d2adefb09cff4266a6fbefda7fc0dff1ae4e06d5e5d4bcb6351af55fcfd815a33706ce2a4a07ec829ae13fb60603c8c16e9fce4ae0a20fbaf07747bb8a6bb  /tmp/remote-lockbox/9
 0670f66bebf4c6c6cbaf09f04cb7fe110dae6b638a156617e3c8440661572020e105d236d08afab6b0566b538fcb458efbb833a50f49711d187ef7c5ec03a367  /tmp/remote-lockbox/2
+edc9ee8d9db920514a43ecdfda0ee1f927f5383a8865aef1660b94e1f2ee0ac906a7934a25fc694da07838ec4e3a9b645a1af36bd0a5283c5bebf87de3e566c9  /tmp/remote-lockbox/8
+b369685ea1aba96a128fac154bb45caa265682042b5d3299bb39a542af54e3817e61a597c25c90cde8e66d311699d44d6ebbeb1601633e5bdba68efb7281a920  /tmp/remote-lockbox/5
+990f2b36730ac2941acb6642a818501205a94aa4c1dd511436ed696f914a92b12e962f7e78bdbdd8d5b8f39fe3f9fe580d8bb1885e06006279811a41a224e655  /tmp/remote-lockbox/6
+db7cf7d86a5fb5370585db489ec2affda2eb0eba79b7c20595759dd0d3489513b918fa2ec0bda35cbe6ddfb2fb8d3e3b2f77b8a39f2e0dd77fd5db0e10f931b5  /tmp/remote-lockbox/1
+1b76275c062fc0382a2eaf0e0f45078051c92551cff0a171bf5f93384ae9faa9b76388c4cbba52710b24f8c77853b04e3757835bade3ac2bc30ea8578b8120e7  /tmp/remote-lockbox/10
+dcaf7c17a80cd9c11ef995e1a1b5aa2d075d645495732e6dc13a868e2951b0f5cc097baf5c29d729ac421dc4a9b2c8a2243e3f2f5f60f590da5d8bc7dc4ae308  /tmp/remote-lockbox/7
+424d2adefb09cff4266a6fbefda7fc0dff1ae4e06d5e5d4bcb6351af55fcfd815a33706ce2a4a07ec829ae13fb60603c8c16e9fce4ae0a20fbaf07747bb8a6bb  /tmp/remote-lockbox/9
 [+] Success
 
-$ scp manifest.txt user@remote-addr:
-$ ssh user@remote-addr "bash -s" -- < ./lockbox.sh -d manifest.txt $(xxd -p test.key | tr -d '\n')
+$ scp manifest.txt user@remote-addr:/tmp/
+manifest.txt                                                                                                         100% 1529     1.5KB/s   00:00
+
+$ ssh user@remote-addr "bash -s" -- < ./lockbox.sh -d /tmp/manifest.txt $(xxd -p test.key | tr -d '\n')
 [+] Validating arguments...
 [+] Testing dependencies...
 [+] Decrypting following files...
-/tmp/remote-lockbox/8: OK
-/tmp/remote-lockbox/1: OK
-/tmp/remote-lockbox/7: OK
-/tmp/remote-lockbox/5: OK
-/tmp/remote-lockbox/3: OK
-/tmp/remote-lockbox/10: OK
-/tmp/remote-lockbox/6: OK
-/tmp/remote-lockbox/9: OK
-/tmp/remote-lockbox/2: OK
+/tmp/remote-lockbox/3
+/tmp/remote-lockbox/2
+/tmp/remote-lockbox/8
+/tmp/remote-lockbox/5
+/tmp/remote-lockbox/6
+/tmp/remote-lockbox/1
+/tmp/remote-lockbox/10
+/tmp/remote-lockbox/7
+/tmp/remote-lockbox/9
+[+] Verifying decryption...
 [+] Success
 ```
 
