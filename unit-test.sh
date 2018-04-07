@@ -39,7 +39,7 @@ ORIG_LARGE_SIZE=$(stat -c %s "$LOCKBOX_PATH/$LARGE_FILE_NAME")
 
 # generate key to be used for encryption
 ./gen_key.sh "$KEY_FILE_PATH"
-# encrypt lockbox.  intentionally omitting '-e' here to test default mode.
+# encrypt lockbox
 ./lockbox.sh -e "$LOCKBOX_PATH" "$(xxd -p "$KEY_FILE_PATH" | tr -d '\n')" | tee "$MANIFEST_FILE_NAME"
 
 # print summary info about lockbox
