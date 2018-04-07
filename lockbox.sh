@@ -28,21 +28,24 @@ Performs fast file-by-file encryption on every file in a directory recursively.
 
 This script should be capable of running in macOS or in Linux.
 
-Usage:  $0 [-e|-d [-c MANIFEST_PATH]] path key
+Usage:  $0 (-e lockbox_dir|-d (manifest_file|lockbox_dir)) key
         $0 -v
         $0 -h
-    -e
-        Encrypt mode (default).  Manifest file is written to stdout.
-    -d
-        Decrypt mode.  Usually in conjunction with '-c'.
-    -c MANIFEST_PATH
-        Path to manifest file created at encryption time.
+    -e lockbox_dir
+        Encrypt mode.  Encrypts all files in lockbox_dir, recursively.
+        Manifest file is written to stdout.
+    -d manifest_file
+        Decrypt mode.  Decrypts all files listed in manifest_file.
+        This is the preferred decryption method.
+    -d lockbox_dir
+        Expert use only.  Decrypts all files in lockbox_dir, recursively, even
+        if they were not originally encrypted.  If new plaintext files were
+        added to lockbox_dir since it was encrypted, then this operation will
+        corrupt them.  Please use '-d manifest_file' whenever possible.
     -h
         Display help information and exit.
     -v
         Display version information and exit.
-    path
-        Path to lockbox directory.
     key
         Key to be used for encryption/decryption.
         Must be represented as a string comprised of exactly 64 hex characters,
@@ -51,15 +54,15 @@ Usage:  $0 [-e|-d [-c MANIFEST_PATH]] path key
 
 Example 1:
   Encrypt:
-    $0 /tmp/lockbox aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa | tee manifest.txt
+    $0 -e /tmp/lockbox aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa | tee manifest.txt
   Decrypt:
-    $0 -d -c manifest.txt /tmp/lockbox aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    $0 -d manifest.txt aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 
 Example 2:
   Encrypt:
-    $0 /tmp/lockbox \$(xxd -p test.key | tr -d '\n') | tee manifest.txt
+    $0 -e /tmp/lockbox \$(xxd -p test.key | tr -d '\n') | tee manifest.txt
   Decrypt:
-    $0 /tmp/lockbox -d -c manifest.txt \$(xxd -p test.key | tr -d '\n')
+    $0 -d manifest.txt \$(xxd -p test.key | tr -d '\n')
 EOF
 }
 
@@ -120,8 +123,9 @@ export -f crypt
 # set default options
 ###############################################################################
 
-OPERATION="Encrypt"
-OPERATION_SWITCH='-e'
+OPERATION=""
+OPERATION_SWITCH=""
+ROOT_DIR=""
 MANIFEST_PATH=""
 
 # reset in case getopts has been used previously in the shell
@@ -132,18 +136,32 @@ OPTIND=1
 # parse options
 ###############################################################################
 
-while getopts ":edc:vh" opt; do
+while getopts ":e:d:vh" opt; do
     case $opt in
         e)
             OPERATION="Encrypt"
             OPERATION_SWITCH='-e'
+
+            if [[ -d "$OPTARG" ]]; then
+                ROOT_DIR="$OPTARG"
+            else
+                echo "[-] $OPTARG is an invalid directory" >&2
+                exit 1
+            fi
             ;;
         d)
             OPERATION="Decrypt"
             OPERATION_SWITCH='-d'
-            ;;
-        c)
-            MANIFEST_PATH="$OPTARG"
+
+            # test for directory first
+            if [[ -d "$OPTARG" ]]; then
+                ROOT_DIR="$OPTARG"
+            elif [[ -r "$OPTARG" ]]; then
+                MANIFEST_PATH="$OPTARG"
+            else
+                echo "[-] $OPTARG is an invalid file or directory" >&2
+                exit 1
+            fi
             ;;
         v)
             echo "lockbox $VERSION"
@@ -181,18 +199,21 @@ export OPERATION_SWITCH
 
 echo "[+] Validating arguments..." >&2
 
-# require exactly 2 arguments
-if [[ $# -ne 2 ]]; then
+if [[ -z "$OPERATION" ]]; then
+    echo "[-] Either option '-e' or '-d' is required" >&2
+    print_usage
+    exit 1
+fi
+
+# require exactly 1 argument
+if [[ $# -ne 1 ]]; then
+    echo "[-] key is a required argument" >&2
     print_usage
     exit 1
 fi
 
 # setup variables for arguments
-ROOT_DIR=$1
-KEY_HEX=$2
-
-# verify that ROOT_DIR is a valid directory
-[[ -d "$ROOT_DIR" ]] || (echo "[-] $ROOT_DIR either doesn't exist or is not a directory" >&2; false)
+KEY_HEX=$1
 
 # verify that key is valid
 echo -n "$KEY_HEX" | grep -Eq '[a-fA-F0-9]{64}' || (echo "[-] Provided key is invalid or incorrectly formatted" >&2; false)

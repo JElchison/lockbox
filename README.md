@@ -15,8 +15,9 @@ Maintain an encrypted lockbox of data, accessible only by you.  Performs fast fi
     * Same symmetrical key used for all files.  Avoids having to store individual keys on lockbox device.
     * IV dynamically calculated for each file.  Like an [ESSIV](https://en.wikipedia.org/wiki/Disk_encryption_theory#Encrypted_salt-sector_initialization_vector_(ESSIV)), but uses hash of full file path instead of sector number.
 * In-place encryption/decryption.  Instead of using a temp file on storage device for every encryption operation, an attempt is made to reuse existing [inode](https://en.wikipedia.org/wiki/Inode).  Helpful when trying to maintain lockbox on storage device with little free space.
+    * Note:  The implication here is that you must be careful about version history and backups.  For example, it does no good to store your lockbox on Dropbox, since Dropbox will (forevermore) have plaintext versions of your encrypted files in its version history.
 * Encrypted files leave little hint (if any) about what encrypted it
-* Optional use of manifest file verifies that all encrypted files (no more, no less) have been correctly decrypted to original state
+* (Recommended) use of manifest file verifies that all encrypted files (no more, no less) have been correctly decrypted to original state
 * Local script can be run against remote lockbox, without local script ever existing on remote lockbox device
     * Still requires that remote lockbox device has OpenSSL's `enc` utility and `xxd` dependencies installed
 
@@ -58,21 +59,24 @@ Performs fast file-by-file encryption on every file in a directory recursively.
 
 This script should be capable of running in macOS or in Linux.
 
-Usage:  ./lockbox.sh [-e|-d [-c MANIFEST_PATH]] path key
+Usage:  ./lockbox.sh (-e lockbox_dir|-d (manifest_file|lockbox_dir)) key
         ./lockbox.sh -v
         ./lockbox.sh -h
-    -e
-        Encrypt mode (default).  Manifest file is written to stdout.
-    -d
-        Decrypt mode.  Usually in conjunction with '-c'.
-    -c MANIFEST_PATH
-        Path to manifest file created at encryption time.
+    -e lockbox_dir
+        Encrypt mode.  Encrypts all files in lockbox_dir, recursively.
+        Manifest file is written to stdout.
+    -d manifest_file
+        Decrypt mode.  Decrypts all files listed in manifest_file.
+        This is the preferred decryption method.
+    -d lockbox_dir
+        Expert use only.  Decrypts all files in lockbox_dir, recursively, even
+        if they were not originally encrypted.  If new plaintext files were
+        added to lockbox_dir since it was encrypted, then this operation will
+        corrupt them.  Please use '-d manifest_file' whenever possible.
     -h
         Display help information and exit.
     -v
         Display version information and exit.
-    path
-        Path to lockbox directory.
     key
         Key to be used for encryption/decryption.
         Must be represented as a string comprised of exactly 64 hex characters,
@@ -81,15 +85,15 @@ Usage:  ./lockbox.sh [-e|-d [-c MANIFEST_PATH]] path key
 
 Example 1:
   Encrypt:
-    ./lockbox.sh /tmp/lockbox aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa | tee manifest.txt
+    ./lockbox.sh -e /tmp/lockbox aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa | tee manifest.txt
   Decrypt:
-    ./lockbox.sh -d -c manifest.txt /tmp/lockbox aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    ./lockbox.sh -d manifest.txt aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 
 Example 2:
   Encrypt:
-    ./lockbox.sh /tmp/lockbox $(xxd -p test.key | tr -d '\n') | tee manifest.txt
+    ./lockbox.sh -e /tmp/lockbox $(xxd -p test.key | tr -d '\n') | tee manifest.txt
   Decrypt:
-    ./lockbox.sh /tmp/lockbox -d -c manifest.txt $(xxd -p test.key | tr -d '\n')
+    ./lockbox.sh -d manifest.txt $(xxd -p test.key | tr -d '\n')
 ```
 
 
@@ -148,7 +152,7 @@ total 40
 $ xxd -g4 /tmp/lockbox/1
 00000000: 7b01114b f074cd                      {..K.t.
 
-$ ./lockbox.sh -d /tmp/lockbox $(xxd -p test.key | tr -d '\n')
+$ ./lockbox.sh -d manifest.txt $(xxd -p test.key | tr -d '\n')
 [+] Validating arguments...
 [+] Testing dependencies...
 [+] Decrypting following files...
@@ -187,7 +191,7 @@ $ ./gen_key.sh test.key
 [+] Key saved at test.key
 [+] Success
 
-$ ssh user@remote-addr "bash -s" -- < ./lockbox.sh -e /tmp/remote-lockbox $(xxd -p test.key | tr -d '\n') | tee /tmp/remote-lockbox/manifest.txt
+$ ssh user@remote-addr "bash -s" -- < ./lockbox.sh -e /tmp/remote-lockbox $(xxd -p test.key | tr -d '\n') | tee manifest.txt
 [+] Validating arguments...
 [+] Testing dependencies...
 [+] Encrypting following files...
@@ -202,7 +206,8 @@ b369685ea1aba96a128fac154bb45caa265682042b5d3299bb39a542af54e3817e61a597c25c90cd
 0670f66bebf4c6c6cbaf09f04cb7fe110dae6b638a156617e3c8440661572020e105d236d08afab6b0566b538fcb458efbb833a50f49711d187ef7c5ec03a367  /tmp/remote-lockbox/2
 [+] Success
 
-$ ssh user@remote-addr "bash -s" -- < ./lockbox.sh -d -c /tmp/remote-lockbox/manifest.txt /tmp/remote-lockbox $(xxd -p test.key | tr -d '\n')
+$ scp manifest.txt user@remote-addr:
+$ ssh user@remote-addr "bash -s" -- < ./lockbox.sh -d manifest.txt $(xxd -p test.key | tr -d '\n')
 [+] Validating arguments...
 [+] Testing dependencies...
 [+] Decrypting following files...
