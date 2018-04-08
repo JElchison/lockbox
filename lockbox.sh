@@ -271,7 +271,7 @@ if [[ "$OPERATION_SWITCH" == '-d' ]] && [[ -r "$MANIFEST_PATH" ]]; then
     echo "[+] Verifying decryption..." >&2
     sha512sum -c "$MANIFEST_PATH" --quiet
 else
-    find $(realpath "$ROOT_DIR") -type f -writable -exec bash -c 'crypt "$0"' {} \;
+    find "$(realpath "$ROOT_DIR")" -type f -writable -exec bash -c 'crypt "$0"' {} \;
 fi
 
 
