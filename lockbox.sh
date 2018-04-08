@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # setup Bash environment
-set -eufx -o pipefail
+set -euf -o pipefail
 
 
 ###############################################################################
