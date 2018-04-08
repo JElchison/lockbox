@@ -1,4 +1,4 @@
-language: generic
+language: bash
 
 matrix:
   include:
@@ -29,6 +29,3 @@ script:
  - ./lockbox.sh -v
  - ./lockbox.sh -h
  - ./unit-test.sh
-
-matrix:
-  fast_finish: true
