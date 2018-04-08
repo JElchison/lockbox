@@ -37,9 +37,9 @@ xxd -g4 "$LOCKBOX_PATH/$ROOT_FILE_NUMBER"
 
 # record inode and size info
 ORIG_INODE=$(ls -i "$LOCKBOX_PATH/$TEST_FILE_NUMBER" | cut -d ' ' -f 1)
-ORIG_SIZE=$(stat -c %s "$LOCKBOX_PATH/$TEST_FILE_NUMBER")
+ORIG_SIZE=$(wc -c < "$LOCKBOX_PATH/$TEST_FILE_NUMBER")
 ORIG_LARGE_INODE=$(ls -i "$LOCKBOX_PATH/$LARGE_FILE_NAME" | cut -d ' ' -f 1)
-ORIG_LARGE_SIZE=$(stat -c %s "$LOCKBOX_PATH/$LARGE_FILE_NAME")
+ORIG_LARGE_SIZE=$(wc -c < "$LOCKBOX_PATH/$LARGE_FILE_NAME")
 
 # generate key to be used for encryption
 ./gen_key.sh "$KEY_FILE_PATH"
@@ -54,11 +54,11 @@ xxd -g4 "$LOCKBOX_PATH/$ROOT_FILE_NUMBER"
 # verify that inode and size are same
 NEW_INODE=$(ls -i "$LOCKBOX_PATH/$TEST_FILE_NUMBER" | cut -d ' ' -f 1)
 test "$NEW_INODE" -eq "$ORIG_INODE"
-NEW_SIZE=$(stat -c %s "$LOCKBOX_PATH/$TEST_FILE_NUMBER")
+NEW_SIZE=$(wc -c < "$LOCKBOX_PATH/$TEST_FILE_NUMBER")
 test "$NEW_SIZE" -eq "$ORIG_SIZE"
 NEW_LARGE_INODE=$(ls -i "$LOCKBOX_PATH/$LARGE_FILE_NAME" | cut -d ' ' -f 1)
 test "$NEW_LARGE_INODE" -eq "$ORIG_LARGE_INODE"
-NEW_LARGE_SIZE=$(stat -c %s "$LOCKBOX_PATH/$LARGE_FILE_NAME")
+NEW_LARGE_SIZE=$(wc -c < "$LOCKBOX_PATH/$LARGE_FILE_NAME")
 test "$NEW_LARGE_SIZE" -eq "$ORIG_LARGE_SIZE"
 
 # verify that file owned by root has not been modified
@@ -79,11 +79,11 @@ xxd -g4 "$LOCKBOX_PATH/$ROOT_FILE_NUMBER"
 # verify that inode and size are same
 NEW_INODE=$(ls -i "$LOCKBOX_PATH/$TEST_FILE_NUMBER" | cut -d ' ' -f 1)
 test "$NEW_INODE" -eq "$ORIG_INODE"
-NEW_SIZE=$(stat -c %s "$LOCKBOX_PATH/$TEST_FILE_NUMBER")
+NEW_SIZE=$(wc -c < "$LOCKBOX_PATH/$TEST_FILE_NUMBER")
 test "$NEW_SIZE" -eq "$ORIG_SIZE"
 NEW_LARGE_INODE=$(ls -i "$LOCKBOX_PATH/$LARGE_FILE_NAME" | cut -d ' ' -f 1)
 test "$NEW_LARGE_INODE" -eq "$ORIG_LARGE_INODE"
-NEW_LARGE_SIZE=$(stat -c %s "$LOCKBOX_PATH/$LARGE_FILE_NAME")
+NEW_LARGE_SIZE=$(wc -c < "$LOCKBOX_PATH/$LARGE_FILE_NAME")
 test "$NEW_LARGE_SIZE" -eq "$ORIG_LARGE_SIZE"
 
 # verify that all files are back to original contents
