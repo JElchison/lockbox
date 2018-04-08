@@ -238,7 +238,7 @@ if [[ ! -x $(which openssl 2>/dev/null) ]] ||
     [[ ! -x $(which sha512sum 2>/dev/null) ]] ||
     [[ ! -x $(which cat 2>/dev/null) ]] ||
     [[ ! -x $(which cut 2>/dev/null) ]] ||
-    [[ ! -x $(which readlink 2>/dev/null) ]] ||
+    [[ ! -x $(which realpath 2>/dev/null) ]] ||
     [[ ! -x $(which find 2>/dev/null) ]] ||
     [[ ! -x $(which grep 2>/dev/null) ]] ||
     [[ ! -x $(which test 2>/dev/null) ]] ||
@@ -247,7 +247,7 @@ if [[ ! -x $(which openssl 2>/dev/null) ]] ||
     [[ ! -x $(which tr 2>/dev/null) ]] ||
     [[ ! -x $(which dd 2>/dev/null) ]] ||
     [[ ! -x $(which xxd 2>/dev/null) ]]; then
-    echo "[-] Dependencies unmet.  Please verify that the following are installed, executable, and in the PATH:  openssl, md5sum, sha256sum, sha512sum, cat, cut, readlink, find, grep, test, true, false, tr, dd, xxd" >&2
+    echo "[-] Dependencies unmet.  Please verify that the following are installed, executable, and in the PATH:  openssl, md5sum, sha256sum, sha512sum, cat, cut, realpath, find, grep, test, true, false, tr, dd, xxd" >&2
     exit 1
 fi
 
@@ -271,7 +271,7 @@ if [[ "$OPERATION_SWITCH" == '-d' ]] && [[ -r "$MANIFEST_PATH" ]]; then
     echo "[+] Verifying decryption..." >&2
     sha512sum -c "$MANIFEST_PATH" --quiet
 else
-    find "$(readlink -f "$ROOT_DIR")" -type f -writable -exec bash -c 'crypt "$0"' {} \;
+    find "$(realpath "$ROOT_DIR")" -type f -writable -exec bash -c 'crypt "$0"' {} \;
 fi
 
 
