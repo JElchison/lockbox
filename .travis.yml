@@ -26,7 +26,7 @@ before_install:
  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew outdated coreutils || brew upgrade coreutils; fi
  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"; fi
- - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew outdated findutils || brew upgrade findutils; fi
+ - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew uninstall findutils || true; brew install findutils; fi
  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export PATH="/usr/local/opt/findutils/libexec/gnubin:$PATH"; fi
  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew outdated openssl || brew upgrade openssl; fi
 
