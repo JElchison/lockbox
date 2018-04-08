@@ -18,7 +18,11 @@ mkdir "$LOCKBOX_PATH"
 for I in $(seq $TOTAL_NUMBER_FILES); do
     echo "Test $I" > "$LOCKBOX_PATH/$I"
 done
-sudo chown root:root "$LOCKBOX_PATH/$ROOT_FILE_NUMBER"
+if [ "$(uname)" == "Darwin" ]; then
+    sudo chown root:wheel "$LOCKBOX_PATH/$ROOT_FILE_NUMBER"
+elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+    sudo chown root:root "$LOCKBOX_PATH/$ROOT_FILE_NUMBER"
+fi
 
 # setup large file contents.
 # must be larger than 8KiB (larger than block size in OpenSSL's enc).
