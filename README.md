@@ -34,9 +34,13 @@ Note:  This tool does not encrypt, rename, or otherwise attempt to mask the orig
 ## Prerequisites
 To install necessary prerequisites on Ubuntu:
 
-    sudo apt-get install openssl vim-common coreutils
+    sudo apt install coreutils openssl vim-common
 
 LibreSSL is also acceptable.
+
+To install necessary prerequisites on macOS:
+
+    brew install coreutils openssl findutils
 
 
 ## Getting Started
