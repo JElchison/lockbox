@@ -1,19 +1,31 @@
 language: bash
 
-sudo: required
+matrix:
+  include:
+    - os: linux
+      dist: precise
+      sudo: required
+    - os: linux
+      dist: trusty
+      sudo: required
+    - os: osx
+      osx_image: xcode6.4
+    - os: osx
+    - os: osx
+      osx_image: xcode9.3beta
 
 install:
- - sudo apt-get -qq update
- - sudo apt-get install -y openssl vim-common coreutils
- - curl https://ftp-master.debian.org/keys/archive-key-7.0.asc | sudo apt-key add -
- - echo "deb http://ftp.us.debian.org/debian unstable main contrib non-free" | sudo tee -a /etc/apt/sources.list
- - sudo apt-get -qq update
- - sudo apt-get install -y shellcheck
- - pip install --user bashate
+ - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get -qq update; fi
+ - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install -y openssl vim-common coreutils; fi
+ - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then curl https://ftp-master.debian.org/keys/archive-key-7.0.asc | sudo apt-key add -; fi
+ - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then echo "deb http://ftp.us.debian.org/debian unstable main contrib non-free" | sudo tee -a /etc/apt/sources.list; fi
+ - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get -qq update; fi
+ - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install -y shellcheck; fi
+ - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then pip install --user bashate; fi
 
 script:
- - bash -c 'shopt -s globstar; shellcheck -e 2012 **/*.sh'
- - bash -c 'shopt -s globstar; bashate -i E006,E011 **/*.sh'
+ - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then bash -c 'shopt -s globstar; shellcheck -e 2012 **/*.sh'; fi
+ - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then bash -c 'shopt -s globstar; bashate -i E006,E011 **/*.sh'; fi
  - ./lockbox.sh -v
  - ./lockbox.sh -h
  - ./unit-test.sh
