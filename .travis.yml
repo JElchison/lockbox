@@ -29,6 +29,7 @@ before_install:
  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo ln -s /usr/local/bin/gsha256sum /usr/local/bin/sha256sum; fi
  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo ln -s /usr/local/bin/gsha512sum /usr/local/bin/sha512sum; fi
  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew outdated findutils || brew upgrade findutils; fi
+ - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo ln -s /usr/local/bin/gfind /usr/local/bin/find; fi
 
 script:
  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then bash -c 'shopt -s globstar; shellcheck -e 2012 **/*.sh'; fi
