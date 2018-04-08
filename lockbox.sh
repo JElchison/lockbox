@@ -271,6 +271,10 @@ if [[ "$OPERATION_SWITCH" == '-d' ]] && [[ -r "$MANIFEST_PATH" ]]; then
     echo "[+] Verifying decryption..." >&2
     sha512sum -c "$MANIFEST_PATH" --quiet
 else
+    echo $PATH >&2
+    which find >&2 || true
+    which gfind >&2 || true
+    ls -la /usr/local/opt/findutils/libexec/gnubin || true
     find "$(realpath "$ROOT_DIR")" -type f -writable -exec bash -c 'crypt "$0"' {} \;
 fi
 
