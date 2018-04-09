@@ -232,6 +232,7 @@ export KEY_HEX
 ###############################################################################
 
 echo "[+] Testing dependencies..." >&2
+
 if [[ ! -x $(which openssl 2>/dev/null) ]] ||
     [[ ! -x $(which md5sum 2>/dev/null) ]] ||
     [[ ! -x $(which sha256sum 2>/dev/null) ]] ||
@@ -250,6 +251,8 @@ if [[ ! -x $(which openssl 2>/dev/null) ]] ||
     echo "[-] Dependencies unmet.  Please verify that the following are installed, executable, and in the PATH:  openssl, md5sum, sha256sum, sha512sum, cat, cut, realpath, find, grep, test, true, false, tr, dd, xxd" >&2
     exit 1
 fi
+
+openssl enc help 2>&1 | grep -- -aes-256-ctr || (echo "[-] Installed version of OpenSSL does not expose required aes-256-ctr cipher" >&2; false)
 
 
 ###############################################################################
