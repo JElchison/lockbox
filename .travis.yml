@@ -5,21 +5,6 @@ matrix:
     - os: linux
       sudo: required
     - os: osx
-      osx_image: xcode6.4
-    - os: osx
-      osx_image: xcode7.3
-    - os: osx
-      osx_image: xcode8
-    - os: osx
-      osx_image: xcode8.3
-    - os: osx
-      osx_image: xcode9
-    - os: osx
-      osx_image: xcode9.1
-    - os: osx
-      osx_image: xcode9.2
-    - os: osx
-    - os: osx
       osx_image: xcode9.3beta
 
 
@@ -36,6 +21,8 @@ before_install:
  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"; fi
  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install findutils || brew outdated findutils || brew upgrade findutils; fi
  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export PATH="/usr/local/opt/findutils/libexec/gnubin:$PATH"; fi
+ - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install gnu-sed || brew outdated gnu-sed || brew upgrade gnu-sed; fi
+ - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"; fi
  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install openssl || brew outdated openssl || brew upgrade openssl; fi
 
 script:
