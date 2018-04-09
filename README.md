@@ -41,7 +41,7 @@ LibreSSL is also acceptable.
 
 To install necessary prerequisites on macOS:
 
-    brew install coreutils openssl findutils
+    brew install coreutils findutils gnu-sed openssl
 
 
 ## Getting Started
