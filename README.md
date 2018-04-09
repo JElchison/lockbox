@@ -1,12 +1,13 @@
 # lockbox
 
-Maintain an encrypted lockbox of data, accessible only by you.  Performs fast file-by-file encryption on every file in a directory recursively.
+Maintain an encrypted lockbox of data, accessible only by you.  Performs fast file-by-file encryption on every file in a directory recursively.  This script should be capable of running in macOS or in Linux.
 
 [![Build Status](https://travis-ci.org/JElchison/lockbox.svg?branch=master)](https://travis-ci.org/JElchison/lockbox)
 
 
 ## Features
 * Performs fast file-by-file encryption on every file in a directory recursively
+* Should be capable of running in macOS or in Linux
 * Bash-based with minimal external dependencies (mainly OpenSSL's `enc` utility and `xxd`)
 * Uses [NSA Suite B Cryptography](https://en.wikipedia.org/wiki/NSA_Suite_B_Cryptography) algorithms with generally good cryptographic hygiene
 * Skips all files that are not [regular files](https://en.wikipedia.org/wiki/Unix_file_types#Regular_file) (such as symbolic links)
