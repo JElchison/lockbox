@@ -32,8 +32,8 @@ Note:  This tool does not encrypt, rename, or otherwise attempt to mask the orig
     * `xxd`
 
 OpenSSL's `enc` must have the following ciphers available:
-    * `aes-256-ctr`
-    * `aes-256-ecb`
+* `aes-256-ctr`
+* `aes-256-ecb`
 
 
 ## Prerequisites
