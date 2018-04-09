@@ -11,6 +11,7 @@ TEST_FILE_NUMBER=10
 ROOT_FILE_NUMBER=42
 LARGE_FILE_NAME=large.bin
 MANIFEST_FILE_NAME=manifest.txt
+UNAME_S=$(uname -s)
 
 # setup contents of lockbox
 rm -rf "$LOCKBOX_PATH" || true
@@ -20,8 +21,11 @@ for I in $(seq $TOTAL_NUMBER_FILES); do
 done
 if [ "$(uname)" == "Darwin" ]; then
     sudo chown root:wheel "$LOCKBOX_PATH/$ROOT_FILE_NUMBER"
-elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+elif [ "${UNAME_S:0:5}" == "Linux" ]; then
     sudo chown root:root "$LOCKBOX_PATH/$ROOT_FILE_NUMBER"
+else
+    echo "Unknown OS"
+    exit 1
 fi
 
 # setup large file contents.
