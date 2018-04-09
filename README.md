@@ -43,6 +43,8 @@ To install necessary prerequisites on macOS:
 
     brew install coreutils findutils gnu-sed openssl
 
+Since lockbox assumes use of GNU versions of tools, you may have to modify your `PATH` such that GNU versions take precedence over native macOS versions.
+
 
 ## Getting Started
 
