@@ -252,7 +252,7 @@ if [[ ! -x $(which openssl 2>/dev/null) ]] ||
     exit 1
 fi
 
-openssl enc help 2>&1 | grep -- -aes-256-ctr || (echo "[-] Installed version of OpenSSL does not expose required aes-256-ctr cipher" >&2; false)
+(openssl enc help 2>&1 || true) | grep -- '-aes-256-ctr' || (echo "[-] Installed version of OpenSSL does not expose required aes-256-ctr cipher" >&2; false)
 
 
 ###############################################################################
