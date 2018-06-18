@@ -102,7 +102,7 @@ function crypt {
     FILE_PATH=$1
 
     if [[ "$OPERATION_SWITCH" == '-e' ]]; then
-        # calculate the hsah for the file, before we encrypt it
+        # calculate the hash for the file, before we encrypt it
         HASH_OUTPUT=$(sha512sum "$FILE_PATH")
     fi
 
